@@ -18,3 +18,24 @@ IfWinActive Hearthstone ahk_class UnityWndClass
 	BlockInput, Off
 }
 return
+
+^LButton:: ; Ctrl + Left mouse button
+IfWinActive Hearthstone ahk_class UnityWndClass
+{
+	WinGetPos, Xpos, Ypos, Width, Height
+	HeroX := Round(Width * 0.5)
+	HeroY := Round(Height * 0.211)
+	MouseGetPos, MouseX, MouseY
+	BlockInput, On
+	Click down
+	sleep, 10
+	Click down
+	MouseMove, %HeroX%, %HeroY%, 5
+	Sleep, 10
+	Click up left
+	; MouseClickDrag, L,,, HeroX, HeroY, 5 ; unreliable
+	Sleep, 50
+	MouseMove, %MouseX%, %MouseY%
+	BlockInput, Off
+}
+return
