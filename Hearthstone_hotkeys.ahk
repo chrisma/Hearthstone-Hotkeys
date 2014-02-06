@@ -1,6 +1,7 @@
 #SingleInstance force ; Replace an existing script
 SetDefaultMouseSpeed, 0 ; move mouse instantly
 
+; Pass the turn
 ^Space:: ; Ctrl + Space
 ~MButton:: ; Middle mouse button
 IfWinActive Hearthstone ahk_class UnityWndClass
@@ -19,6 +20,7 @@ IfWinActive Hearthstone ahk_class UnityWndClass
 }
 return
 
+; Target enemy hero
 ^LButton:: ; Ctrl + Left mouse button
 IfWinActive Hearthstone ahk_class UnityWndClass
 {
