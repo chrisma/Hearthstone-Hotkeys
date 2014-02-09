@@ -5,6 +5,9 @@ SetDefaultMouseSpeed, 0 ; Move mouse instantly
 ; Makes subsequent hotkeys only function if specified window is active
 #IfWinActive Hearthstone ahk_class UnityWndClass 
 
+; Show Tooltip in the tray that the script is active
+TrayTip, Hearthstone Hotkeys, running...,,1
+
 ;; HOTKEYS
 ; Pass the turn
 MButton:: ; Middle mouse button
