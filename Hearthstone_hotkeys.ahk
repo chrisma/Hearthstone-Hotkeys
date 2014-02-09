@@ -1,43 +1,116 @@
 #SingleInstance force ; Replace an existing script
-SetDefaultMouseSpeed, 0 ; move mouse instantly
+#NoEnv ; Don't check empty variables to see if they are environment variables
+SetDefaultMouseSpeed, 0 ; Move mouse instantly
 
+; Makes subsequent hotkeys only function if specified window is active
+#IfWinActive Hearthstone ahk_class UnityWndClass 
+
+;; HOTKEYS
 ; Pass the turn
-^Space:: ; Ctrl + Space
-~MButton:: ; Middle mouse button
-IfWinActive Hearthstone ahk_class UnityWndClass
-{
-	WinGetPos, Xpos, Ypos, Width, Height
-	ButtonX := Round(Width * 0.8)
-	ButtonY := Round(Height * 0.46)
-	MouseGetPos, MouseX, MouseY
-	BlockInput, On
-	MouseMove, %ButtonX%, %ButtonY%
-	Click
-	Sleep, 10
-	Click
-	MouseMove, %MouseX%, %MouseY%
-	BlockInput, Off
-}
+MButton:: ; Middle mouse button
+^Space:: ; Spacebar
+PassTurn()
 return
 
 ; Target enemy hero
 ^LButton:: ; Ctrl + Left mouse button
-IfWinActive Hearthstone ahk_class UnityWndClass
-{
-	WinGetPos, Xpos, Ypos, Width, Height
-	HeroX := Round(Width * 0.5)
-	HeroY := Round(Height * 0.211)
-	MouseGetPos, MouseX, MouseY
+TargetEnemyHero()
+return
+
+; Emote "Greetings"
+F1:: ; F1 function key on top of the keyboard
+Numpad1:: ; 1 on Numpad
+NumpadEnd:: ; 1 on Numpad when Numlock is off
+Emote(0.42, 0.80)
+return
+
+; Emote "Well Played"
+F2::
+Numpad2::
+NumpadDown::
+Emote(0.42, 0.72)
+return
+
+; Emote "Thanks"
+F3::
+Numpad3::
+NumpadPgDn::
+Emote(0.42, 0.64)
+return
+
+; Emote "Sorry"
+F4::
+Numpad4::
+NumpadLeft::
+Emote(0.58, 0.64)
+return
+
+; Emote "Oops"
+F5::
+Numpad5::
+NumpadClear::
+Emote(0.58, 0.72)
+return
+
+; Emote "Threaten"
+F6::
+Numpad6::
+NumpadRight::
+Emote(0.58, 0.80)
+return
+
+
+;; FUNCTIONS
+; Convert relative positions of buttons on screen into absolute 
+; pixels for AHK commands. Allows for different resolutions.
+GetAbsolutePixels(RatioX, RatioY) {
+	WinGetPos,,, Width, Height
+	AbsoluteX := Round(Width * RatioX)
+	AbsoluteY := Round(Height * RatioY)
+	return [AbsoluteX, AbsoluteY]
+}
+
+; Emote takes relative position of emote to click
+Emote(EmoteX, EmoteY) {
 	BlockInput, On
+	Avatar := GetAbsolutePixels(0.5, 0.775)
+	Emote := GetAbsolutePixels(EmoteX, EmoteY)
+	MouseGetPos, MouseX, MouseY
+	MouseClick, right, Avatar[1], Avatar[2]
+	Sleep, 400 ; Wait until bubbles have popped up
+	MouseClick, left, Emote[1], Emote[2]
+	Sleep, 100
+	MouseMove, %MouseX%, %MouseY%
+	BlockInput, Off
+}
+
+; Presses the "END TURN" button on the right side
+PassTurn() {
+	BlockInput, On
+	Button := GetAbsolutePixels(0.8, 0.46)
+	MouseGetPos, MouseX, MouseY
+	MouseClick, left, Button[1], Button[2]
+	Sleep, 10
+	MouseClick, left, Button[1], Button[2]
+	MouseMove, %MouseX%, %MouseY%
+	BlockInput, Off
+	return
+}
+
+; Drags from current mouse location to enemy hero
+TargetEnemyHero() {
+	BlockInput, On
+	Hero := GetAbsolutePixels(0.5, 0.211)
+	MouseGetPos, MouseX, MouseY
 	Click down
-	sleep, 10
+	Sleep, 10
 	Click down
-	MouseMove, %HeroX%, %HeroY%, 5
+	MouseMove, Hero[1], Hero[2], 5
 	Sleep, 10
 	Click up left
 	; MouseClickDrag, L,,, HeroX, HeroY, 5 ; unreliable
 	Sleep, 50
 	MouseMove, %MouseX%, %MouseY%
 	BlockInput, Off
+	return
 }
-return
