@@ -8,7 +8,7 @@ SetDefaultMouseSpeed, 0 ; Move mouse instantly
 ;; HOTKEYS
 ; Pass the turn
 MButton:: ; Middle mouse button
-^Space:: ; Spacebar
+^Space:: ; Ctrl + Spacebar
 PassTurn()
 return
 
