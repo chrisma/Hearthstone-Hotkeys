@@ -5,8 +5,11 @@ SetDefaultMouseSpeed, 0 ; Move mouse instantly
 ; Makes subsequent hotkeys only function if specified window is active
 #IfWinActive Hearthstone ahk_class UnityWndClass 
 
+; Changes the tray icon's tooltip (displayed when mouse hovers over it)
+Menu, tray, Tip, Hearthstone Hotkeys
 ; Show Tooltip in the tray that the script is active
 TrayTip, Hearthstone Hotkeys, running...,,1
+
 
 ;; HOTKEYS
 ; Pass the turn
