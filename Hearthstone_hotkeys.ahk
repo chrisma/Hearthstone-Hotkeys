@@ -2,14 +2,13 @@
 #NoEnv ; Don't check empty variables to see if they are environment variables
 SetDefaultMouseSpeed, 0 ; Move mouse instantly
 
-; Makes subsequent hotkeys only function if specified window is active
-#IfWinActive Hearthstone ahk_class UnityWndClass 
-
 ; Changes the tray icon's tooltip (displayed when mouse hovers over it)
 Menu, tray, Tip, Hearthstone Hotkeys
 ; Show Tooltip in the tray that the script is active
 TrayTip, Hearthstone Hotkeys, running...,,1
 
+; Makes subsequent hotkeys only function if specified window is active
+#IfWinActive Hearthstone ahk_class UnityWndClass 
 
 ;; HOTKEYS
 ; Pass the turn
@@ -65,6 +64,10 @@ NumpadRight::
 Emote(0.58, 0.80)
 return
 
+; Toggle borderless fullscreen window mode
+F12::
+ToggleFakeFullscreen()
+return
 
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
@@ -119,4 +122,19 @@ TargetEnemyHero() {
 	MouseMove, %MouseX%, %MouseY%
 	BlockInput, Off
 	return
+}
+
+ToggleFakeFullscreen() {
+	WinGet, WindowStyle, Style
+	if (WindowStyle & +0xC00000) {
+		WinMove,,, 0, 0, A_ScreenWidth, A_ScreenHeight
+		WinSet, Style, -0xC00000 ; remove title bar
+		; Works best if done twice, no idea why
+		WinMove,,, 0, 0, A_ScreenWidth, A_ScreenHeight
+		WinSet, Style, -0xC00000
+	} else {
+		; Resize slightly smaller than screen, position at the top
+		WinMove,,, 25, 2, A_ScreenWidth-50, A_ScreenHeight-50
+		WinSet, Style, +0xC00000 ; restore title bar
+	}
 }
