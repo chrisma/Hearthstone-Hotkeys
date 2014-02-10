@@ -14,6 +14,7 @@ TrayTip, Hearthstone Hotkeys, running...,,1
 ; Pass the turn
 MButton:: ; Middle mouse button
 ^Space:: ; Ctrl + Spacebar
+^Enter:: ; Ctrl + Enter
 PassTurn()
 return
 
@@ -69,6 +70,11 @@ F12::
 ToggleFakeFullscreen()
 return
 
+; Concede the match
+^Esc:: ; Crtl + Escape
+Concede()
+return
+
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
 ; pixels for AHK commands. Allows for different resolutions.
@@ -122,6 +128,13 @@ TargetEnemyHero() {
 	MouseMove, %MouseX%, %MouseY%
 	BlockInput, Off
 	return
+}
+
+Concede() {
+	SendInput, {Esc} ; Bring up the menu
+	Sleep, 300 ; Wait until it has popped up
+	Button := GetAbsolutePixels(0.5, 0.4)
+	MouseClick, left, Button[1], Button[2]
 }
 
 ToggleFakeFullscreen() {
