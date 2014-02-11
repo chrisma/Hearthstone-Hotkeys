@@ -75,6 +75,7 @@ return
 Concede()
 return
 
+
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
 ; pixels for AHK commands. Allows for different resolutions.
@@ -102,7 +103,12 @@ Emote(EmoteX, EmoteY) {
 ; Presses the "END TURN" button on the right side
 PassTurn() {
 	BlockInput, On
-	Button := GetAbsolutePixels(0.8, 0.46)
+	Button := GetAbsolutePixels(0.81, 0.46)
+	PixelGetColor, color, Button[1], Button[2], RGB
+	; only click when "END TURN" button is active
+	; (ie it's 0xDDAB00 / yellow or 0x2AAD02 / green)
+	if color not in 0xDDAB00,0x2AAD02
+		return
 	MouseGetPos, MouseX, MouseY
 	MouseClick, left, Button[1], Button[2]
 	Sleep, 10
