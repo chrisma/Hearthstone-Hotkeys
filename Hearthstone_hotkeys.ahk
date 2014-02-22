@@ -145,6 +145,7 @@ SameShade(c1, c2, variance=60) {
     return rdiff <= variance && gdiff <= variance && bdiff <= variance
 }
 
+; Returns true if the color of the playfield was currently found
 IsDuringMatch() {
 	PlayfieldPoint := GetAbsolutePixels(0.4, 0.3)
 	PixelGetColor, currentColor, PlayfieldPoint[1], PlayfieldPoint[2], RGB
@@ -170,13 +171,17 @@ TargetEnemyHero() {
 	return
 }
 
+; Bring up the menu and click the "Concede" button
 Concede() {
+	if not IsDuringMatch()
+		return
 	SendInput, {Esc} ; Bring up the menu
 	Sleep, 300 ; Wait until it has popped up
 	Button := GetAbsolutePixels(0.5, 0.4)
 	MouseClick, left, Button[1], Button[2]
 }
 
+; Toggle fullscreen window without border and sreen dimensions
 ToggleFakeFullscreen() {
 	WinGet, WindowStyle, Style
 	if (WindowStyle & +0xC00000) {
