@@ -91,9 +91,8 @@ GetAbsolutePixels(RatioX, RatioY) {
 Emote(EmoteX, EmoteY) {
 	BlockInput, On
 	; if not in battle, don't click around
-	if not IsDuringMatch() {
+	if not IsDuringMatch()
 		return
-	}
 	Avatar := GetAbsolutePixels(0.5, 0.775)
 	Emote := GetAbsolutePixels(EmoteX, EmoteY)
 	MouseGetPos, MouseX, MouseY
