@@ -10,6 +10,7 @@ TrayTip, Hearthstone Hotkeys, running...,,1
 ; Makes subsequent hotkeys only function if specified window is active
 #IfWinActive Hearthstone ahk_class UnityWndClass 
 
+
 ;; HOTKEYS
 ; Pass the turn
 MButton:: ; Middle mouse button
@@ -71,7 +72,7 @@ ToggleFakeFullscreen()
 return
 
 ; Concede the match
-^Esc:: ; Crtl + Escape
+^Esc:: ; Ctrl + Escape
 Concede()
 return
 
@@ -89,11 +90,17 @@ GetAbsolutePixels(RatioX, RatioY) {
 ; Emote takes relative position of emote to click
 Emote(EmoteX, EmoteY) {
 	BlockInput, On
+	Point := GetAbsolutePixels(0.4, 0.3)
+	PixelGetColor, currentColor, Point[1], Point[2], RGB
+	playfieldColor := 0xD5985B
+	; if not in battle, don't click around
+	if not SameShade(currentColor, playfieldColor)
+		return
 	Avatar := GetAbsolutePixels(0.5, 0.775)
 	Emote := GetAbsolutePixels(EmoteX, EmoteY)
 	MouseGetPos, MouseX, MouseY
 	MouseClick, right, Avatar[1], Avatar[2]
-	Sleep, 400 ; Wait until bubbles have popped up
+	Sleep, 120 ; Wait until bubbles have popped up
 	MouseClick, left, Emote[1], Emote[2]
 	Sleep, 100
 	MouseMove, %MouseX%, %MouseY%
@@ -106,16 +113,39 @@ PassTurn() {
 	Button := GetAbsolutePixels(0.81, 0.46)
 	PixelGetColor, color, Button[1], Button[2], RGB
 	; only click when "END TURN" button is active
-	; (ie it's 0xDDAB00 / yellow or 0x2AAD02 / green)
-	if color not in 0xDDAB00,0x2AAD02
-		return
-	MouseGetPos, MouseX, MouseY
-	MouseClick, left, Button[1], Button[2]
-	Sleep, 10
-	MouseClick, left, Button[1], Button[2]
-	MouseMove, %MouseX%, %MouseY%
+	; background		yellow		green
+	; squash/kite	 	0xEFE000	0x2DE302
+	; catapult/zeppelin 0xDDAB00	0x2AAD02
+	; jungle/waterfall	0xEFE000	0x2DE202
+	; Inn/Hippogriff	0xD6Ca00	0x29CC00
+	yellow := 0xEFE000
+	green := 0x2DE302
+	current := color
+	if ( SameShade(current, yellow) ) or ( SameShade(current, green) ) {
+		MouseGetPos, MouseX, MouseY
+		MouseClick, left, Button[1], Button[2]
+		Sleep, 10
+		MouseClick, left, Button[1], Button[2]
+		MouseMove, %MouseX%, %MouseY%
+	}
 	BlockInput, Off
 	return
+}
+
+; Split colors into their RGB values
+; Taken from stackoverflow.com/questions/16872911/how-to-determine-whether-colour-is-within-a-range-of-shades
+SplitColors(color) {
+    return { "r": (color >> 16) & 0xFF, "g": (color >> 8) & 0xFF, "b": color & 0xFF }
+}
+
+; Determine if the RGB values of colors are within variance of each other 
+SameShade(c1, c2, variance=60) {
+	c1 := SplitColors(c1)
+	c2 := SplitColors(c2)
+    rdiff := Abs( c1.r - c2.r )
+    gdiff := Abs( c1.g - c2.g )
+    bdiff := Abs( c1.b - c2.b )
+    return rdiff <= vary && gdiff <= vary && bdiff <= vary
 }
 
 ; Drags from current mouse location to enemy hero
@@ -146,7 +176,7 @@ Concede() {
 ToggleFakeFullscreen() {
 	WinGet, WindowStyle, Style
 	if (WindowStyle & +0xC00000) {
-		WinMove,,, 0, 0, A_ScreenWidth, A_ScreenHeight
+		WinMove,,, 25, 2, A_ScreenWidth, A_ScreenHeight
 		WinSet, Style, -0xC00000 ; remove title bar
 		; Works best if done twice, no idea why
 		WinMove,,, 0, 0, A_ScreenWidth, A_ScreenHeight
