@@ -90,12 +90,10 @@ GetAbsolutePixels(RatioX, RatioY) {
 ; Emote takes relative position of emote to click
 Emote(EmoteX, EmoteY) {
 	BlockInput, On
-	Point := GetAbsolutePixels(0.4, 0.3)
-	PixelGetColor, currentColor, Point[1], Point[2], RGB
-	playfieldColor := 0xD5985B
 	; if not in battle, don't click around
-	if not SameShade(currentColor, playfieldColor)
+	if not IsDuringMatch() {
 		return
+	}
 	Avatar := GetAbsolutePixels(0.5, 0.775)
 	Emote := GetAbsolutePixels(EmoteX, EmoteY)
 	MouseGetPos, MouseX, MouseY
@@ -145,7 +143,14 @@ SameShade(c1, c2, variance=60) {
     rdiff := Abs( c1.r - c2.r )
     gdiff := Abs( c1.g - c2.g )
     bdiff := Abs( c1.b - c2.b )
-    return rdiff <= vary && gdiff <= vary && bdiff <= vary
+    return rdiff <= variance && gdiff <= variance && bdiff <= variance
+}
+
+IsDuringMatch() {
+	PlayfieldPoint := GetAbsolutePixels(0.4, 0.3)
+	PixelGetColor, currentColor, PlayfieldPoint[1], PlayfieldPoint[2], RGB
+	playfieldColor := 0xD5985B
+	return SameShade(currentColor, playfieldColor)
 }
 
 ; Drags from current mouse location to enemy hero
