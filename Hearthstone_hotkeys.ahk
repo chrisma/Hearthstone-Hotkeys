@@ -76,14 +76,6 @@ return
 Concede()
 return
 
-^j::
-a := GetAbsolutePixels(0.644, 0.92)
-MouseMove, a[1], a[2]
-PixelGetColor, color, a[1], a[2], RGB
-blue := 0x3871AC
-MsgBox % SameShade(blue, color)
-MsgBox % color
-return
 
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
