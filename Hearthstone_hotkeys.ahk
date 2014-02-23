@@ -76,6 +76,14 @@ return
 Concede()
 return
 
+^j::
+a := GetAbsolutePixels(0.644, 0.92)
+MouseMove, a[1], a[2]
+PixelGetColor, color, a[1], a[2], RGB
+blue := 0x3871AC
+MsgBox % SameShade(blue, color)
+MsgBox % color
+return
 
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
@@ -91,8 +99,6 @@ GetAbsolutePixels(RatioX, RatioY) {
 Emote(EmoteX, EmoteY) {
 	BlockInput, On
 	; if not in battle, don't click around
-	if not IsDuringMatch()
-		return
 	Avatar := GetAbsolutePixels(0.5, 0.775)
 	Emote := GetAbsolutePixels(EmoteX, EmoteY)
 	MouseGetPos, MouseX, MouseY
@@ -145,14 +151,6 @@ SameShade(c1, c2, variance=60) {
     return rdiff <= variance && gdiff <= variance && bdiff <= variance
 }
 
-; Returns true if the color of the playfield was currently found
-IsDuringMatch() {
-	PlayfieldPoint := GetAbsolutePixels(0.4, 0.3)
-	PixelGetColor, currentColor, PlayfieldPoint[1], PlayfieldPoint[2], RGB
-	playfieldColor := 0xD5985B
-	return SameShade(currentColor, playfieldColor)
-}
-
 ; Drags from current mouse location to enemy hero
 TargetEnemyHero() {
 	BlockInput, On
@@ -173,8 +171,6 @@ TargetEnemyHero() {
 
 ; Bring up the menu and click the "Concede" button
 Concede() {
-	if not IsDuringMatch()
-		return
 	SendInput, {Esc} ; Bring up the menu
 	Sleep, 300 ; Wait until it has popped up
 	Button := GetAbsolutePixels(0.5, 0.4)
