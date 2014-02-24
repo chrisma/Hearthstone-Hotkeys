@@ -1,5 +1,5 @@
 # Hearthstone-Hotkeys
-AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone][1].  
+AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone][1].
 It automates common actions (such a ending the turn) and provides a fullscreen borderless mode, allowing faster switching between windows and overlaying extra windows.
 
 ## Hotkeys
@@ -16,20 +16,21 @@ F6, Numpad6, NumpadRight | Emote "Threaten"
 F12 | Toggle borderless fullscreen mode
 
 ## Usage
-1. Download and run the compiled executable "Hearthstone_hotkeys.exe" (if you trust me)
+1. [Download][2] and run the compiled executable "Hearthstone_hotkeys.exe" (if you trust me)
 
     __or__
 
-2. * Install [AutoHotkey][2]
+2. * Install [AutoHotkey][3]
     * Run the .ahk file (double click on it / drag it onto the Autohotkey executable)
 
 A message will pop up, that Hearthstone Hotkeys is running.
 The script lives in the taskbar and can be quit from there.
 
 ## Contribute
-If you have any remarks, improvements or have found bugs, please don't hesitate to issue a pull request or [open an issue][3].
+If you have any remarks, improvements or have found bugs, please don't hesitate to make a pull request or [open an issue][4].
 
 
   [1]: http://us.battle.net/hearthstone/en/
-  [2]: http://ahkscript.org/download/
-  [3]: https://github.com/chrisma/Hearthstone-Hotkeys/issues/new
+  [2]: https://github.com/chrisma/Hearthstone-Hotkeys/raw/master/Hearthstone_hotkeys.exe
+  [3]: http://ahkscript.org/download/
+  [4]: https://github.com/chrisma/Hearthstone-Hotkeys/issues/new
