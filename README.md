@@ -27,7 +27,7 @@ A message will pop up, that Hearthstone Hotkeys is running.
 The script lives in the taskbar and can be quit from there.
 
 ## Contribute
-If you have any remarks, improvements or have found bugs, please don't hesitate to make a pull request or [open an issue][4].
+If you have any remarks, improvements or have found bugs, please don't hesitate to issue a pull request or [open an issue][4].
 
 
   [1]: http://us.battle.net/hearthstone/en/
