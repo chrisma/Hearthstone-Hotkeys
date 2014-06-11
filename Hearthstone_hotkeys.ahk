@@ -76,6 +76,10 @@ return
 Concede()
 return
 
+; Toggle "Sound in Background" option
+^m:: ; Ctrl + m
+ToggleBackgroundSound()
+return
 
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
@@ -85,6 +89,12 @@ GetAbsolutePixels(RatioX, RatioY) {
 	AbsoluteX := Round(Width * RatioX)
 	AbsoluteY := Round(Height * RatioY)
 	return [AbsoluteX, AbsoluteY]
+}
+
+; Open (and wait for) the game menu
+OpenMenu() {
+	SendInput, {Esc} ; Bring up the menu
+	Sleep, 200 ; Wait until it has popped up
 }
 
 ; Emote takes relative position of emote to click
@@ -163,8 +173,7 @@ TargetEnemyHero() {
 
 ; Bring up the menu and click the "Concede" button
 Concede() {
-	SendInput, {Esc} ; Bring up the menu
-	Sleep, 300 ; Wait until it has popped up
+	OpenMenu()
 	Button := GetAbsolutePixels(0.5, 0.4)
 	MouseClick, left, Button[1], Button[2]
 }
@@ -183,4 +192,22 @@ ToggleFakeFullscreen() {
 		WinMove,,, 25, 2, A_ScreenWidth-50, A_ScreenHeight-50
 		WinSet, Style, +0xC00000 ; restore title bar
 	}
+}
+
+; Go to the options menu and toggle "Sound In Background" option
+ToggleBackgroundSound() {
+	BlockInput, On
+	MouseGetPos, MouseX, MouseY
+	OpenMenu()
+	OptionsButton := GetAbsolutePixels(0.5, 0.53)
+	MouseClick, left, OptionsButton[1], OptionsButton[2]
+	Sleep, 200 ; Wait for the menu to pop up
+	SoundInBackgroundCheckBox := GetAbsolutePixels(0.56, 0.34)
+	MouseClick, left, SoundInBackgroundCheckBox[1], SoundInBackgroundCheckBox[2]
+	Sleep, 50
+	SendInput, {Esc} ; Exit out of the menus
+	Sleep, 100
+	SendInput, {Esc}
+	MouseMove, %MouseX%, %MouseY%
+	BlockInput, Off
 }
