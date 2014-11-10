@@ -1,4 +1,7 @@
 # Hearthstone-Hotkeys
+
+*WARNING: due to Blizzard making resolutions arbitrary, this tool no longer works, it will be updated as soon as I find some time.*
+
 AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone][1].
 It automates common actions (such a ending the turn) and provides a fullscreen borderless mode, allowing faster switching between windows and overlaying extra windows.
 
