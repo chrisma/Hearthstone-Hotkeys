@@ -1,22 +1,25 @@
 # Hearthstone-Hotkeys
 
-*WARNING: due to Blizzard making resolutions arbitrary, this tool no longer works, it will be updated as soon as I find some time.*
+*As of 01-09-2014 this tool works again!*
 
 AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone][1].
-It automates common actions (such a ending the turn) and provides a fullscreen borderless mode, allowing faster switching between windows and overlaying extra windows.
+It allows performing some common actions, such a emoting, attacking and ending the turn with a single hotkey. 
 
 ## Hotkeys
 Key | Function
 --- | ---
 Middle-click,  Ctrl+Space, Ctrl+Enter | End turn
-Ctrl+click | Target enemy avatar
+Ctrl+click | Target enemy hero with what is under the mouse cursor
 F1, Numpad1, NumpadEnd | Emote "Greetings"
 F2, Numpad2, NumpadDown | Emote "Well Played"
 F3, Numpad3, NumpadPageDown | Emote "Thanks"
 F4, Numpad4, NumpadLeft | Emote "Sorry"
 F5, Numpad5, NumpadClear | Emote "Oops"
 F6, Numpad6, NumpadRight | Emote "Threaten"
-F12 | Toggle borderless fullscreen mode
+Ctrl+Esc | Concede
+Ctrl+m | Toggle the option "Sound in Background" *(experimental)*
+Ctrl+a | Attack the enemy hero with all available minions
+Ctrl+w, "Forward" mouse button | Attack the enemy hero with all available minions, afterwards end the turn
 
 ## Usage
 1. [Download][2] and run the compiled executable "Hearthstone_hotkeys.exe" (if you trust me)
