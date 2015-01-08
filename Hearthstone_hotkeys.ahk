@@ -81,6 +81,8 @@ return
 ToggleBackgroundSound()
 return
 
+
+
 ;; FUNCTIONS
 ; Convert relative positions of buttons on screen into absolute 
 ; pixels for AHK commands. Allows for different resolutions.
@@ -112,45 +114,42 @@ Emote(EmoteX, EmoteY) {
 	BlockInput, Off
 }
 
-; Presses the "END TURN" button on the right side
+; Presses the "END TURN" button on the right side, if possible
 PassTurn() {
 	BlockInput, On
-	Button := GetAbsolutePixels(0.81, 0.46)
-	PixelGetColor, color, Button[1], Button[2], RGB
-	; only click when "END TURN" button is active
-	; background		yellow		green
-	; squash/kite	 	0xEFE000	0x2DE302
-	; catapult/zeppelin 0xDDAB00	0x2AAD02
-	; jungle/waterfall	0xEFE000	0x2DE202
-	; Inn/Hippogriff	0xD6Ca00	0x29CC00
-	yellow := 0xEFE000
-	green := 0x2DE302
-	current := color
-	if ( SameShade(current, yellow) ) or ( SameShade(current, green) ) {
-		MouseGetPos, MouseX, MouseY
-		MouseClick, left, Button[1], Button[2]
-		Sleep, 10
-		MouseClick, left, Button[1], Button[2]
-		MouseMove, %MouseX%, %MouseY%
+	; the area to be searched for the "end turn" button
+	TopLeft := GetAbsolutePixels(0.75, 0.46)
+	BottomRight := GetAbsolutePixels(0.95, 0.46)
+	BottomRight[2] := BottomRight[2] + 1
+
+	; Green button
+	; PixelSearch, OutputVarX, OutputVarY, X1, Y1, X2, Y2, ColorID [, Variation, Fast|RGB]
+	PixelSearch, FoundGreenX, FoundGreenY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0x00FF00, 50, Fast RGB
+	if (FoundGreenX) {
+		FoundGreenX := FoundGreenX + 20 ;We found the edge of the button. Hit it towards the middle.
+		ClickAndRestorePos(FoundGreenX, FoundGreenY)
+		return
 	}
+	
+	; Yellow Button
+	PixelSearch, FoundYellowX, FoundYellowY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0xFFFF00, 50, Fast RGB
+	if (FoundYellowX) {
+		FoundYellowX := FoundYellowX + 20 ;We found the edge of the button. Hit it towards the middle.
+		ClickAndRestorePos(FoundYellowX, FoundYellowY)
+		return
+	}
+	
 	BlockInput, Off
 	return
 }
 
-; Split colors into their RGB values
-; Taken from stackoverflow.com/questions/16872911/how-to-determine-whether-colour-is-within-a-range-of-shades
-SplitColors(color) {
-    return { "r": (color >> 16) & 0xFF, "g": (color >> 8) & 0xFF, "b": color & 0xFF }
-}
-
-; Determine if the RGB values of colors are within variance of each other 
-SameShade(c1, c2, variance=60) {
-	c1 := SplitColors(c1)
-	c2 := SplitColors(c2)
-    rdiff := Abs( c1.r - c2.r )
-    gdiff := Abs( c1.g - c2.g )
-    bdiff := Abs( c1.b - c2.b )
-    return rdiff <= variance && gdiff <= variance && bdiff <= variance
+ClickAndRestorePos(x,y) {
+	MouseGetPos, MouseX, MouseY
+	MouseClick, left, x, y
+	Sleep, 20
+	; Seems to work better if we click twice
+	MouseClick, left, x, y
+	MouseMove, %MouseX%, %MouseY%
 }
 
 ; Drags from current mouse location to enemy hero
