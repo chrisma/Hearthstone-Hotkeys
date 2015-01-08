@@ -2,7 +2,7 @@
 
 *As of 01-09-2014 this tool works again!*
 
-AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone][1].
+AutoHotkey script providing hotkeys / shortcuts for Blizzard's CCG [Hearthstone: Heroes of Warcraft][1].
 It allows performing some common actions, such a emoting, attacking and ending the turn with a single hotkey. 
 
 ## Hotkeys
