@@ -28,7 +28,7 @@ Ctrl+w, "Forward" mouse button | Attack the enemy hero with all available minion
     __or__
 
 2. * Clone the repository or download the file [Hearthstone_hotkeys.ahk][5] ("save as...")
-   * Install [AutoHotkey][3]
+   * Install [AutoHotkey][3] (AutoHotkey 1.1.*, previously known as AutoHotkey_L, is required)
    * Run the .ahk file (double click on it / drag it onto the Autohotkey executable)
 
 A message will pop up, that Hearthstone Hotkeys is running.
