@@ -131,7 +131,8 @@ Emote(EmoteX, EmoteY) {
 }
 
 ; Presses the "END TURN" button on the right side, if possible
-; Tested on following boards: Naxx, griffin, catapult, GvG/Laser
+; Tested on following boards: Naxx (G, Y), griffin (G, Y), jungle(G, Y) catapult (G, Y), GvG/Laser (G, Y)
+; G - green button, Y - yellow button
 PassTurn() {
 	BlockInput, On
 	; the area to be searched for the "end turn" button
@@ -143,16 +144,16 @@ PassTurn() {
 
 	; Green button
 	; PixelSearch, OutputVarX, OutputVarY, X1, Y1, X2, Y2, ColorID [, Variation, Fast|RGB]
-	PixelSearch, FoundGreenX, FoundGreenY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0x00FF00, 50, Fast RGB
+	PixelSearch, FoundGreenX, FoundGreenY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0x00FF00, 75, Fast RGB
 	if (FoundGreenX) {
-		FoundGreenX := FoundGreenX + 10 ;We found the edge of the button. Hit it towards the middle.
+		FoundGreenX := FoundGreenX + 30 ;We found the edge of the button. Hit it towards the middle.
 		ClickAndRestorePos(FoundGreenX, FoundGreenY)
 		BlockInput, Off
 		return
 	}
 	
 	; Yellow Button
-	PixelSearch, FoundYellowX, FoundYellowY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0xFFFF00, 50, Fast RGB
+	PixelSearch, FoundYellowX, FoundYellowY, TopLeft[1], TopLeft[2], BottomRight[1], BottomRight[2], 0xFFFF00, 75, Fast RGB
 	if (FoundYellowX) {
 		ClickAndRestorePos(FoundYellowX, FoundYellowY)
 		BlockInput, Off
